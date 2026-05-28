@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Project</title>
+</head>
+<body>
+    <h1>云计算课程设计</h1>
+    <h2>学号：2023112576、2023112607</h2>
+    <h2>姓名：刘彤芮、林娜</h2>
+
+    <button onclick="fetchData()">点击连接后端</button>
+    <p id="result">等待通信...</p>
+
+    <script>
+        function fetchData() {
+            fetch('/api/data') // 调用后端的 API
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = 
+                        data.message + " | 当前访问次数: " + data.views;
+                })
+                .catch(err => {
+                    document.getElementById('result').innerText = "通信失败: " + err;
+                });
+        }
+    </script>
+</body>
+</html>
