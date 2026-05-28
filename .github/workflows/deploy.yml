@@ -25,7 +25,8 @@ jobs:
         with:
           host: ${{ secrets.K8S_HOST }}
           username: ${{ secrets.K8S_USER }}
-          password: ${{ secrets.K8S_PASSWORD }}  # 确保这里用的是 password
-          port: 22
+          password: ${{ secrets.K8S_PASSWORD }}
           script: |
+            # 使用环境变量直接运行，这样就不用管文件权限和格式问题了
+            export KUBECONFIG=<(echo "${{ secrets.KUBE_CONFIG_DATA }}")
             kubectl set image deployment/backend-deployment backend=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n default
