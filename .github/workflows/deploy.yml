@@ -25,7 +25,7 @@ jobs:
         with:
           host: ${{ secrets.K8S_HOST }}
           username: ${{ secrets.K8S_USER }}
-          key: ${{ secrets.K8S_SSH_KEY }}
+          passphrase: ${{ secrets.K8S_PASSWORD }}
           script: |
             # 使用最新的 Tag 更新 Kubernetes 部署
             kubectl set image deployment/backend-deployment backend=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n default
