@@ -38,4 +38,4 @@ jobs:
             
             # 3. 部署：确保名字和 namespace 与上面列出的完全一致
             echo "--- Deploying ---"
-            kubectl set image deployment/<你的Deployment名称> <容器名称>=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n <命名空间>
+            kubectl set image deployment/backend backend=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:8abc5ca5505f636a3812e4262b3b4f17c611c63e -n default
