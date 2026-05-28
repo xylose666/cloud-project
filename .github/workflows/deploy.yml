@@ -21,11 +21,11 @@ jobs:
           docker push swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:$IMAGE_TAG
 
       - name: Deploy to K8s
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.K8S_HOST }}
           username: ${{ secrets.K8S_USER }}
-          passphrase: ${{ secrets.K8S_PASSWORD }}
+          password: ${{ secrets.K8S_PASSWORD }}  # 确保这里用的是 password
+          port: 22
           script: |
-            # 使用最新的 Tag 更新 Kubernetes 部署
             kubectl set image deployment/backend-deployment backend=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n default
