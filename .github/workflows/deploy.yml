@@ -27,6 +27,15 @@ jobs:
           username: ${{ secrets.K8S_USER }}
           password: ${{ secrets.K8S_PASSWORD }}
           script: |
-            # 使用环境变量直接运行，这样就不用管文件权限和格式问题了
-            export KUBECONFIG=<(echo "${{ secrets.KUBE_CONFIG_DATA }}")
-            kubectl set image deployment/backend-deployment backend=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n default
+            # 1. 强制在内存中创建一个干净的配置文件，不依赖物理文件
+            mkdir -p ~/.kube
+            echo "${{ secrets.KUBE_CONFIG_DATA }}" > ~/.kube/config
+            chmod 600 ~/.kube/config
+            
+            # 2. 先调试：看看集群到底有哪些 deployment，避免再次出现 NotFound
+            echo "--- Debug: Listing all deployments ---"
+            kubectl get deployments -A
+            
+            # 3. 部署：确保名字和 namespace 与上面列出的完全一致
+            echo "--- Deploying ---"
+            kubectl set image deployment/<你的Deployment名称> <容器名称>=swr.cn-north-4.myhuaweicloud.com/cloud2576/backend:${{ github.sha }} -n <命名空间>
