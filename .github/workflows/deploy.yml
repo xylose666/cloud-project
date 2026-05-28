@@ -11,6 +11,7 @@ jobs:
 
       - name: Build and Push Image
         run: |
+          ls -R
           IMAGE_TAG=${{ github.sha }}
           # 登录华为云 SWR
           echo ${{ secrets.SWR_PWD }} | docker login -u ${{ secrets.SWR_USER }} --password-stdin swr.cn-north-4.myhuaweicloud.com
